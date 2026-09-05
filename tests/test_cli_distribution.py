@@ -76,7 +76,7 @@ class CliTests(unittest.TestCase):
         result = self.cli("demo", "--output", str(output))
         self.assertFalse(result["model_run"])
         self.assertFalse(self.store.exists())
-        self.assertIn("Conversation F", (output / "history.md").read_text())
+        self.assertIn("Conversation F", (output / "history.md").read_text(encoding="utf-8"))
         (output / "mine.txt").write_text("keep")
         self.cli("demo", "--output", str(output), ok=False)
         self.assertEqual((output / "mine.txt").read_text(), "keep")

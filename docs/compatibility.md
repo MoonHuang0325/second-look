@@ -5,7 +5,7 @@ Status date: 2026-09-05. “Tested” below means a specific observed check, not
 | Surface/capability | Status | Evidence or limitation |
 | --- | --- | --- |
 | Python helpers on macOS, Python 3.9.6 and 3.12.14 | Tested | 44 automated parser, ledger, CLI, packaging and installation tests in temporary directories, including demo extraction and upgrade rollback. |
-| Skills CLI 1.5.23 project copy install | Tested mechanically on macOS | The published CLI entry was run with local v0.2.0 source and explicit Codex + Claude Code targets in a temporary project, telemetry disabled. Both folders received the core and demo. This does not test live host routing or the npm wrapper itself. |
+| Skills CLI 1.5.23 project copy install | Tested mechanically on macOS | The published CLI entry was run with local v0.2.0 source and then the public GitHub repository, with explicit Codex + Claude Code targets in a temporary project, telemetry disabled. Both folders received the core and demo. This does not test live host routing or the npm wrapper itself. |
 | Generated demo code | Tested on macOS Python 3.9.6 and 3.12.14 | Both independent outputs were rerun: 8 baseline test methods and 2 skill test methods passed; test counts are not comparative quality scores. [Exercise limits](../evals/observations/README.md). |
 | Standard skill/package structure | Tested locally | Frontmatter/resource checks and archive integrity tests. Native host acceptance is a separate check. |
 | OpenAI plugin manifest | Tested locally | Bundled plugin schema validator; no marketplace approval implied. |

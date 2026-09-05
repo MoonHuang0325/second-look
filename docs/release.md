@@ -1,13 +1,13 @@
 # Release status and checklist
 
-Version: 0.1.0 prototype. Source and reproducible installation archives are prepared locally. This repository does not imply a GitHub remote, published release, approved marketplace listing, or completed user study.
+Version: 0.1.0 prototype. Public source: [MoonHuang0325/second-look](https://github.com/MoonHuang0325/second-look). Reproducible installation archives accompany prototype releases. GitHub publication does not imply an approved marketplace listing or completed user study.
 
-Before publishing a tag:
+Release checks and evaluation follow-up:
 
 - Run automated tests, validation, and reproducible builds. Inspect the package contents and source diff for private data.
 - Keep the compatibility matrix tied to actual host/version tests. Record untested platforms as such.
 - Publish the standard skill ZIP, OpenAI plugin ZIP and SHA256SUMS alongside source. Both packages derive from the same core.
-- Run development paired model trials, fix demonstrated problems, freeze the version, then run the holdout set without tuning against it.
+- Pending evaluation: run development paired model trials, fix demonstrated problems, freeze the evaluated version, then run the holdout set without tuning against it.
 - Label releases “prototype” until live host behavior and user efficacy have been assessed. Never turn the 70%/50% pilot goals into marketing claims.
 - GitHub creation/push requires the owner's authenticated GitHub destination. Directory submission is separate from GitHub publication. Use an owner-approved account and repository; don't invent a URL.
 

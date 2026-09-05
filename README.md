@@ -35,7 +35,7 @@ No default reminders, background scans, model-release monitoring, or API subscri
 
 ## Install and try
 
-Download/extract the repository, then use Python 3.9+:
+[Download the source](https://github.com/MoonHuang0325/second-look/archive/refs/heads/main.zip) or clone it, then use Python 3.9+:
 
 ```sh
 python3 tools/install.py --target codex

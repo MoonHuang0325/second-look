@@ -1,0 +1,4 @@
+interface:
+  display_name: "Second Look"
+  short_description: "Find past questions worth revisiting and deliver better results"
+  default_prompt: "Use $second-look to find worthwhile questions in my accessible history, reconsider them, and deliver improved answers or work."

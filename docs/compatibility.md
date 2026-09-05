@@ -18,7 +18,7 @@ Status date: 2026-09-05. “Tested” below means a specific observed check, not
 | ChatGPT native history + plugin UI | Unverified | Requires actual exposed history tools and a supported plugin/skill installation surface. |
 | Claude chat/Cowork search + skill upload | Unverified | Requires account availability and live installation/history tests. |
 | Claude Code live skill invocation | Unverified | Installer is tested, but live host routing and history discovery require a session test. |
-| Python helpers on GitHub-hosted Ubuntu, macOS and Windows; Python 3.9 and 3.12 | Tested in CI | The v0.1.0 release passed the 40-test suite, structural validation and package build in all six combinations on 2026-09-05. v0.2.0 adds four tests; its current checks are visible in [Actions](https://github.com/MoonHuang0325/second-look/actions/workflows/check.yml). [Run evidence](https://github.com/MoonHuang0325/second-look/actions/runs/33956459051). This does not establish live host integration. |
+| Python helpers on GitHub-hosted Ubuntu, macOS and Windows; Python 3.9 and 3.12 | Tested in CI | The v0.2.0 44-test suite, structural validation and package build passed all six combinations on 2026-09-05; the POSIX-only permission test is skipped on Windows. [Run evidence](https://github.com/MoonHuang0325/second-look/actions/runs/33958603027). This does not establish live host integration. |
 | Other operating systems / Python versions | Unverified | No compatibility claim beyond the observed combinations above. |
 | Human usefulness / two-week reuse | Not run | See the evaluation protocol; no adoption statistics are available. |
 

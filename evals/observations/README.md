@@ -8,7 +8,7 @@ The baseline request asked it to select worthwhile work, recover current goals a
 | --- | --- | --- |
 | Revised work | Offline search code, pilot plan, application | Offline search code, pilot plan, application |
 | Research arithmetic | 800 yuan, 12 person-hours | 800 yuan, 12 person-hours |
-| Application length, including headings | 186 English words | 163 English words |
+| Application length, including headings and numeric tokens | 186 English words | 163 English words |
 | Search verification reported by each run | 8 test methods + CLI smoke check passed | 2 broader test methods + CLI smoke check passed |
 | Unrelated closed festival | Excluded | Excluded |
 | Real-scale search performance | Not measured | Not measured |

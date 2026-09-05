@@ -26,3 +26,12 @@ Changes should preserve natural language invocation, no default background inter
 ## 中文
 
 欢迎提交真实使用中发现的问题、经过脱敏的格式样本、平台安装验证和有依据的改进。请先描述具体失败，再提出修改；不要提交真实对话、客户资料、账号凭证或私人评测文件。保留测试集不能一边用于调参，一边声称仍是独立评测。贡献按项目 MIT 许可证发布。
+
+## Useful first contributions
+
+- Verify one installation route and report the exact host/version and limits.
+- Improve a confusing first-use instruction, with the point where you got stuck.
+- Contribute a small synthetic case where the correct outcome is to keep an old answer or leave a closed topic alone.
+- Translate an existing example without adding new efficacy claims.
+
+Use the issue forms for problems and Discussions for questions. A negative result is welcome. Do not send personal exports; a brief synthetic reproduction is usually more useful.

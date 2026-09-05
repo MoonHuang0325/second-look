@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Questions and minimized feedback / 讨论与反馈
+    url: https://github.com/MoonHuang0325/second-look/discussions
+    about: Share your question without raw personal history.
+  - name: Installation guide / 安装说明
+    url: https://github.com/MoonHuang0325/second-look/blob/main/docs/installation.md
+    about: Check installation, upgrades and known host limitations.

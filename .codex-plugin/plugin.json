@@ -1,10 +1,11 @@
 {
   "name": "second-look",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Find worthwhile questions in past conversations, rethink them, and deliver improved answers or work.",
   "license": "MIT",
   "author": {
-    "name": "Second Look contributors"
+    "name": "Second Look contributors",
+    "url": "https://github.com/MoonHuang0325"
   },
   "skills": "./skills/",
   "interface": {
@@ -13,7 +14,25 @@
     "longDescription": "Discover worthwhile unresolved questions in accessible history, revisit assumptions, verify meaningful changes, and deliver usable revised results. No background reminders or additional API service.",
     "developerName": "Second Look contributors",
     "category": "Productivity",
-    "capabilities": ["Interactive"],
-    "defaultPrompt": ["Find things in my past conversations we could understand or solve better now.", "看看我们以前聊过的事情，有没有现在能想得更好、做得更好的。"]
-  }
+    "capabilities": [
+      "Interactive"
+    ],
+    "defaultPrompt": [
+      "Find things in my past conversations we could understand or solve better now.",
+      "\u770b\u770b\u6211\u4eec\u4ee5\u524d\u804a\u8fc7\u7684\u4e8b\u60c5\uff0c\u6709\u6ca1\u6709\u73b0\u5728\u80fd\u60f3\u5f97\u66f4\u597d\u3001\u505a\u5f97\u66f4\u597d\u7684\u3002"
+    ],
+    "websiteURL": "https://github.com/MoonHuang0325/second-look",
+    "privacyPolicyURL": "https://github.com/MoonHuang0325/second-look/blob/main/docs/privacy.md",
+    "brandColor": "#75E5C0",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png"
+  },
+  "homepage": "https://github.com/MoonHuang0325/second-look",
+  "repository": "https://github.com/MoonHuang0325/second-look",
+  "keywords": [
+    "agent-skills",
+    "conversation-history",
+    "reflection",
+    "productivity"
+  ]
 }

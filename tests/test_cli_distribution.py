@@ -71,6 +71,16 @@ class CliTests(unittest.TestCase):
         self.assertEqual(len(result["errors"]), 1)
         self.assertEqual(self.cli("candidates")["returned"], 1)
 
+    def test_demo_does_not_open_history_or_overwrite(self):
+        output = self.root / "demo"
+        result = self.cli("demo", "--output", str(output))
+        self.assertFalse(result["model_run"])
+        self.assertFalse(self.store.exists())
+        self.assertIn("Conversation F", (output / "history.md").read_text())
+        (output / "mine.txt").write_text("keep")
+        self.cli("demo", "--output", str(output), ok=False)
+        self.assertEqual((output / "mine.txt").read_text(), "keep")
+
     def test_history_injection_is_only_text(self):
         marker = self.root / "executed"
         path = self.root / "evil.txt"
@@ -111,12 +121,52 @@ class DistributionTests(unittest.TestCase):
     def test_install_from_scratch_and_no_overwrite(self):
         installer = module("install")
         with tempfile.TemporaryDirectory() as td:
-            target = installer.install(ROOT / "skills/second-look", Path(td) / "skills")
+            target, backup = installer.install(ROOT / "skills/second-look", Path(td) / "skills")
             self.assertTrue((target / "LICENSE").exists())
             result = subprocess.run([sys.executable, str(target / "scripts/second_look.py"), "capabilities"], capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             with self.assertRaises(ValueError):
                 installer.install(ROOT / "skills/second-look", Path(td) / "skills")
+
+    def test_upgrade_keeps_user_additions_in_backup_and_leaves_ledger(self):
+        installer = module("install")
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            target, _ = installer.install(ROOT / "skills/second-look", root / "skills")
+            (target / "my-notes.txt").write_text("personal customization")
+            ledger = root / "private-ledger.json"
+            ledger.write_text("keep ledger")
+            updated, backup = installer.install(ROOT / "skills/second-look", root / "skills", True)
+            self.assertEqual(updated, target)
+            self.assertEqual((backup / "my-notes.txt").read_text(), "personal customization")
+            self.assertNotIn(root / "skills", backup.parents)
+            self.assertFalse((updated / "my-notes.txt").exists())
+            self.assertEqual(ledger.read_text(), "keep ledger")
+
+    def test_upgrade_refuses_unrelated_directory(self):
+        installer = module("install")
+        with tempfile.TemporaryDirectory() as td:
+            target = Path(td) / "second-look"
+            target.mkdir()
+            (target / "keep.txt").write_text("keep")
+            with self.assertRaises(ValueError):
+                installer.install(ROOT / "skills/second-look", td, True)
+            self.assertEqual((target / "keep.txt").read_text(), "keep")
+
+    def test_upgrade_rolls_back_on_replacement_failure(self):
+        from unittest.mock import patch
+        installer = module("install")
+        with tempfile.TemporaryDirectory() as td:
+            target, _ = installer.install(ROOT / "skills/second-look", Path(td) / "skills")
+            (target / "keep.txt").write_text("recover me")
+            original = Path.rename
+            def fail_new(path, dest):
+                if path.parent.name.startswith(".second-look-install-"):
+                    raise OSError("simulated replacement failure")
+                return original(path, dest)
+            with patch.object(Path, "rename", fail_new), self.assertRaises(OSError):
+                installer.install(ROOT / "skills/second-look", Path(td) / "skills", True)
+            self.assertEqual((target / "keep.txt").read_text(), "recover me")
 
     def test_reproducible_archives_and_no_private_files(self):
         builder = module("build")
@@ -127,13 +177,22 @@ class DistributionTests(unittest.TestCase):
             for name in a:
                 with zipfile.ZipFile(Path(td) / "a" / name) as archive:
                     names = archive.namelist()
-                    self.assertTrue(any(n.endswith("/SKILL.md") for n in names))
+                    if name.endswith("-launch-kit.zip"):
+                        self.assertIn("second-look-launch/START.md", names)
+                    else:
+                        self.assertTrue(any(n.endswith("/assets/demo/history.md") for n in names))
+                        self.assertTrue(any(n.endswith("/SKILL.md") for n in names))
                     self.assertFalse(any("__pycache__" in n or "eval-runs" in n or n.endswith(".sqlite3") or "holdout" in n for n in names))
                     self.assertFalse(any(n.startswith("/") or ".." in Path(n).parts for n in names))
                     if name.endswith("-skill.zip"):
                         archive.extractall(Path(td) / "installed")
             result = subprocess.run([sys.executable, str(Path(td) / "installed/second-look/scripts/second_look.py"), "capabilities"], capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
+            result = subprocess.run([sys.executable, str(Path(td) / "installed/second-look/scripts/second_look.py"),
+                                     "demo", "--output", str(Path(td) / "demo")], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual((Path(td) / "demo/history.md").read_bytes(),
+                             (ROOT / "skills/second-look/assets/demo/history.md").read_bytes())
 
     def test_validation(self):
         self.assertEqual(module("validate").validate()["behavioral_cases"], 24)

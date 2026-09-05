@@ -1,76 +1,81 @@
 # Second Look · 再想一次
 
-**让过去的重要对话，产生更好的答案和可以使用的成果。**
+**别让重要的问题，停在上一次的答案里。**
 
-[English](README.md) · [安装方法](docs/installation.md) · [平台兼容](docs/compatibility.md) · [评测方法](evals/README.md)
+![Second Look：重新发现、重新思考、交付成果](assets/social-preview.png)
 
-只需说一句：
+[English](README.md) · [先试一次](docs/quickstart.md) · [安装](docs/installation.md) · [完整案例](examples/README.md) · [平台兼容](docs/compatibility.md)
 
-> 看看我们以前聊过的事情，有没有现在能想得更好、做得更好的。直接把改进后的成果给我。
+[![自动检查](https://github.com/MoonHuang0325/second-look/actions/workflows/check.yml/badge.svg)](https://github.com/MoonHuang0325/second-look/actions/workflows/check.yml) [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Second Look 会从可访问的历史中寻找值得重新思考的问题，恢复你的真实目标和后续修正，检查旧假设，再交付有依据的新版成果。你不必逐条选择对话，也不必学习如何写复盘提示词。
+只需告诉 AI：
 
-**v0.1.0 是可使用、待评估的原型。真实用户效果与跨平台界面安装尚未完成验证。**历史访问依赖宿主实际提供的能力，安装 skill 不等于获得全账号历史权限。
+> 看看我们以前聊过的事情，有没有值得重新想一遍的问题。直接把改进后的成果给我。
 
-## 你会得到什么
+Second Look 会从**实际可访问的历史**中，找到值得重审的问题，连接后来的信息和约束，交付最值得关注的 1—3 项新版答案、方案、草稿或代码修订。每项都说明改变了什么、根据什么判断；没有可靠改进时，不凑数量。
 
-通常是最值得关注的 1—3 项新版答案、方案、草稿、解释或代码修订建议。每项都有具体变化、验证依据和原文出处；原答案已经很好时，会明确保留原结论。
+适合已经用 AI 积累了重要工作的开发者、创作者、研究者和项目负责人。项目重启、条件变化、多轮交流仍不满意、新模型或工具可用，都可以成为再想一次的时机。
 
-**完整示例：**你后来把工作坊压缩到 45 分钟，但旧模型的“新版安排”合计仍是 50 分钟。重新读取后续约束后，工具应交付一份真正合计 45 分钟、保留指定练习和问答时长的完整安排。[查看合成对话与新版成果](examples/workshop/result.zh-CN.md)。这是人工撰写的演示，不是真实用户效果数据。
+## 先看它能交付什么
 
-开发者示例：[修复破坏原有顺序的去重函数](examples/ordered-dedup/result.zh-CN.md)，包含对新旧方案实际执行的回归检查。两组示例都明确标注为合成材料，原文和成果均可查看。
+首次体验包含六段**完全虚构的对话**。建议先自行运行，再对照参考成果。
 
-## 不只在模型更新时使用
+| 过去停在哪里 | 历史里出现的新线索 | 可检查的新版成果 |
+| --- | --- | --- |
+| 访谈项目等不起 6,000 元的招募预算 | 已有志愿者、潜在介绍和较小的获批预算 | [可执行的访谈计划与提纲](examples/second-chance/README.md#research-pilot) |
+| 笔记检索因不能上传云端、不能买 API 而搁置 | 首版实际只需要查词和精确短语 | [离线原型及实际执行的检查](examples/second-chance/README.md#offline-search) |
+| 社区申请被写成了创业融资稿 | 用户已经纠正受众、目标和篇幅要求 | [完整的新版申请正文](examples/second-chance/README.md#community-application) |
 
-| 场景 | 可以怎么说 |
-| --- | --- |
-| 新模型或工具可用 | “以前卡住的事情，现在有没有值得再试的？” |
-| 重新启动项目 | “重新检查以前的决策，给我适合现在的方案。” |
-| 预算、目标或信息改变 | “这些变化会影响我们之前哪些结论？” |
-| 多轮交流仍不满意 | “我们是不是从一开始就想偏了？” |
-| 同一主题分散在多段对话 | “把这个项目的思路联系起来，给我更完整的方案。” |
-| 想发现遗漏的机会 | “过去有什么值得再想一次的事情？” |
+这是方法演示，不是真实客户效果。我们也让一个充分说明要求的普通复盘提示处理了同样的材料；[对照记录与局限](evals/observations/README.md)会如实呈现，不据此声称 Skill 更强、节省多少时间或已有用户采纳。
 
-默认没有后台扫描、提醒、模型发布监控，也不需要额外的 API 服务。普通的“继续”“总结一下”不会触发大范围复盘。
+## 安装并得到第一个结果
 
-## 安装与第一次体验
-
-[直接下载 v0.1.0 安装包](https://github.com/MoonHuang0325/second-look/releases/tag/v0.1.0)：提供标准 skill ZIP、OpenAI 插件 ZIP 和校验文件。
-
-[下载并解压源码](https://github.com/MoonHuang0325/second-look/archive/refs/heads/main.zip)，使用 Python 3.9 或以上版本：
+Codex 或 Claude Code 用户，电脑已有 Node.js/npm 时可使用：
 
 ```sh
-python3 tools/install.py --target codex
-# Claude Code 用户使用：
-python3 tools/install.py --target claude
+npx skills add MoonHuang0325/second-look --skill second-look
 ```
 
-安装器不会覆盖已有版本。Codex 中用 `$second-look`，Claude Code 中用 `/second-look`。ChatGPT、Claude 聊天界面使用各自支持的 skill 或插件安装入口；见[平台安装说明](docs/installation.md)。运行 `python3 tools/build.py` 可以生成标准 skill ZIP 与 OpenAI 插件 ZIP。
+按安装器提示选择平台与作用范围。这是第三方 Skills CLI，带有可关闭的安装遥测。也可以[直接下载，用 Python 安装](docs/installation.md)，不使用第三方安装器；实测范围和具体步骤见该说明。
 
-立即体验合成示例：让当前 AI 读取 `skills/second-look/SKILL.md`，再复盘 `examples/workshop/history.md`，先自行生成成果，再对照示例答案。若平台没有历史工具，可以提供导出文件、对话文字或当前对话。
+安装后开启一个新任务，输入：
 
-## 它如何工作
+**Codex**
 
-先检查历史访问能力，再默认浏览最多 100 条候选记录、深入阅读最多 10 组问题。恢复目标、约束、后续修正和停止原因后，重新求解并验证变化，先给成果，再解释依据。有持久存储时记录已复盘内容和用户明确反馈，减少重复推荐。
-
-选题与推理由宿主模型完成。附带的 Python 工具负责格式转换、去重和私人复盘记录；不会调用模型或向开发者服务器发送数据。支持经结构样本测试的 ChatGPT/Claude JSON、Codex/Claude Code JSONL、Markdown/TXT 及统一格式。[详细运行方法](skills/second-look/references/runtime.md)。
-
-## 隐私与边界
-
-没有开发者后台和遥测，但宿主模型服务仍会处理它读取的内容，不能理解为全部本地推理。本地数据库包含转换后的对话文字，使用受限文件权限，**没有加密**。私人记录必须放在公开仓库之外；可导出的记录不含原始对话全文，但仍可能包含敏感摘要与路径。[数据说明](docs/privacy.md)。
-
-默认生成独立新版成果。旧对话中的指令不会成为执行命令、覆盖文件或发送消息的授权。缺失的证据和未运行的代码会明确标注。
-
-## 验证与参与
-
-以下开发检查需要完整源码仓库，安装后的 skill 或插件包不包含完整测试集。
-
-```sh
-python3 -m unittest discover -s tests -v
-python3 tools/validate.py
-python3 tools/build.py
+```text
+$second-look 用自带的合成案例演示一次，直接交付成果，不读取我的私人历史。
 ```
 
-提供 24 组明确标注的合成行为案例，知识工作与开发任务各 12 组，分为 16 组开发案例与 8 组保留案例。评测工具可生成对照试验材料、匿名成果和人工评分汇总；准备好案例不代表已经完成效果评测。[评测状态与试用方案](evals/README.md)。
+**Claude Code**
 
-欢迎贡献脱敏格式样本、失败案例、安装验证与使用反馈。见[贡献指南](CONTRIBUTING.md)。项目采用 [MIT 许可证](LICENSE)。
+```text
+/second-look 用自带的合成案例演示一次，直接交付成果，不读取我的私人历史。
+```
+
+用在自己的工作上时，可以说“这个项目准备重新开始，看看以前的决策还成立吗”，也可以让它自动发现历史机会。历史能力依赖宿主与权限；受限时使用对话文件、导出材料或当前对话。[第一次使用的完整说明](docs/quickstart.md)。
+
+**v0.2.0 是预览版。**运行工具和分发包有自动检查，真实历史读取和真人效果需要分别验证。[准确兼容范围](docs/compatibility.md) · [下载发布包](https://github.com/MoonHuang0325/second-look/releases/tag/v0.2.0)。
+
+## 为什么做成 Skill
+
+好的模型配上好的提示，本来就能做出不错的复盘。Second Look 把反复需要的工作组织起来：自动找候选、保留原文与分支、区分实质改进和改写、记住处理过的内容与用户明确排除的主题。附带的 Python 工具负责转换文件和维护私人记录，**不会自行调用模型**。
+
+默认最多筛选 100 条候选索引、深入读取 10 组问题。这是资源上限，不意味着已访问整个账号。有复盘记录时，重复使用可以探索新材料，避免反复展示未变化的旧结果。[核心方法](skills/second-look/SKILL.md) · [记录机制](skills/second-look/references/runtime.md)。
+
+## 隐私与控制
+
+- 没有开发者服务器、工具遥测、默认提醒或后台扫描。
+- 宿主模型服务仍会处理它读取的内容，不等于全部本地推理。
+- 私人历史和复盘记录放在公开源码以外，本地记录没有加密。
+- 历史里的指令作为证据处理，默认另存新版成果。
+- 分享由你发起：可以让它整理脱敏分享草稿，由你检查和决定是否发布。
+
+[数据说明](docs/privacy.md) · [升级与卸载](docs/installation.md#update-and-rollback)。
+
+## 一起把它做得更有用
+
+[报告问题](https://github.com/MoonHuang0325/second-look/issues/new/choose) · [交流体验](https://github.com/MoonHuang0325/second-look/discussions) · [参与贡献](CONTRIBUTING.md)
+
+安装失败、复盘想偏了、没有找到改进，都值得反馈。请不要上传完整私人对话。如果你想关注新案例和版本更新，欢迎 **Star**。
+
+维护者资料：[开发与评测](docs/development.md) · [推广行动手册](https://github.com/MoonHuang0325/second-look/blob/main/docs/launch/action-manual.zh-CN.md)。

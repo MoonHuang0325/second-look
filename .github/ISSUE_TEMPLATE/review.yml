@@ -1,0 +1,23 @@
+name: Review missed the point / 复盘没有帮助
+description: Wrong goal, weak result, repeated topic, or a case that should stay closed.
+title: "[Review] "
+body:
+  - type: textarea
+    id: intent
+    attributes:
+      label: What did you want to accomplish? / 真实目标
+      description: Describe the problem in general terms. No private conversations needed.
+    validations:
+      required: true
+  - type: textarea
+    id: gap
+    attributes:
+      label: What went wrong? / 问题
+      description: What result would have helped, or why should the original conclusion have stayed?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Optional synthetic reproduction / 可选合成复现
+      description: Include host and skill version if known. Do not paste exports, review databases, client details or account locators.

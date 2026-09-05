@@ -1,6 +1,6 @@
 # Evaluation protocol / 评测说明
 
-**Current status: 24 synthetic behavioral cases are provided; paired model efficacy evaluation and real-user pilot have not been run.** Automated Python tests verify data handling and harness mechanics, not whether a model finds valuable improvements.
+**Current status: 24 synthetic behavioral cases are provided. Two illustrative development exercises on a separate demo pack are [published with their limits](observations/README.md); the 24-case paired efficacy evaluation and real-user pilot have not been run.** Automated Python tests verify data handling and harness mechanics, not whether a model finds valuable improvements.
 
 ## Corpus
 

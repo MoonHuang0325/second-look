@@ -4,7 +4,9 @@ Status date: 2026-09-05. “Tested” below means a specific observed check, not
 
 | Surface/capability | Status | Evidence or limitation |
 | --- | --- | --- |
-| Python helpers on macOS, Python 3.9.6 and 3.12.14 | Tested | Automated parser, ledger, CLI, packaging and installation tests in temporary directories. |
+| Python helpers on macOS, Python 3.9.6 and 3.12.14 | Tested | 44 automated parser, ledger, CLI, packaging and installation tests in temporary directories, including demo extraction and upgrade rollback. |
+| Skills CLI 1.5.23 project copy install | Tested mechanically on macOS | The published CLI entry was run with local v0.2.0 source and explicit Codex + Claude Code targets in a temporary project, telemetry disabled. Both folders received the core and demo. This does not test live host routing or the npm wrapper itself. |
+| Generated demo code | Tested on macOS Python 3.9.6 and 3.12.14 | Both independent outputs were rerun: 8 baseline test methods and 2 skill test methods passed; test counts are not comparative quality scores. [Exercise limits](../evals/observations/README.md). |
 | Standard skill/package structure | Tested locally | Frontmatter/resource checks and archive integrity tests. Native host acceptance is a separate check. |
 | OpenAI plugin manifest | Tested locally | Bundled plugin schema validator; no marketplace approval implied. |
 | ChatGPT mapping JSON | Limited support | Synthetic active branch, ambiguous leaves, malformed graph, duplicate import and attachment tests. |
@@ -16,7 +18,7 @@ Status date: 2026-09-05. “Tested” below means a specific observed check, not
 | ChatGPT native history + plugin UI | Unverified | Requires actual exposed history tools and a supported plugin/skill installation surface. |
 | Claude chat/Cowork search + skill upload | Unverified | Requires account availability and live installation/history tests. |
 | Claude Code live skill invocation | Unverified | Installer is tested, but live host routing and history discovery require a session test. |
-| Python helpers on GitHub-hosted Ubuntu, macOS and Windows; Python 3.9 and 3.12 | Tested in CI | All six combinations passed the 40-test suite, structural validation and package build on 2026-09-05. [Run evidence](https://github.com/MoonHuang0325/second-look/actions/runs/33956459051). This does not establish live host integration. |
+| Python helpers on GitHub-hosted Ubuntu, macOS and Windows; Python 3.9 and 3.12 | Tested in CI | The v0.1.0 release passed the 40-test suite, structural validation and package build in all six combinations on 2026-09-05. v0.2.0 adds four tests; its current checks are visible in [Actions](https://github.com/MoonHuang0325/second-look/actions/workflows/check.yml). [Run evidence](https://github.com/MoonHuang0325/second-look/actions/runs/33956459051). This does not establish live host integration. |
 | Other operating systems / Python versions | Unverified | No compatibility claim beyond the observed combinations above. |
 | Human usefulness / two-week reuse | Not run | See the evaluation protocol; no adoption statistics are available. |
 

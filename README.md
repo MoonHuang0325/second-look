@@ -1,80 +1,81 @@
 # Second Look
 
-**Turn important past conversations into better answers and usable work.**
+**Your important questions deserve another answer.**
 
-[简体中文](README.zh-CN.md) · [Install](docs/installation.md) · [Compatibility](docs/compatibility.md) · [Evaluation](evals/README.md)
+![Second Look: rediscover, reconsider, deliver](assets/social-preview.png)
 
-Ask once:
+[简体中文](README.zh-CN.md) · [Try the demo](docs/quickstart.md) · [Install](docs/installation.md) · [Examples](examples/README.md) · [Compatibility](docs/compatibility.md)
 
-> Look through our past conversations. Is there anything we could understand or solve better now? Deliver the improved results.
+[![Checks](https://github.com/MoonHuang0325/second-look/actions/workflows/check.yml/badge.svg)](https://github.com/MoonHuang0325/second-look/actions/workflows/check.yml) [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Second Look discovers worthwhile questions in accessible history, reconstructs your actual goals, checks old assumptions, and does the work again where a meaningful improvement is supported. You do not have to pick every conversation or design a retrospective prompt.
+Ask your agent:
 
-**v0.1.0 is a working prototype for evaluation. Human efficacy and cross-platform UI installation have not yet been established.** History access depends on the host; the skill cannot grant access to an entire account.
+> Look through our past conversations. Find something worth reconsidering, and deliver the improved work.
 
-## What you receive
+Second Look discovers worthwhile questions in **accessible** history, reconnects later corrections and constraints, and produces 1–3 usable answers, plans, drafts or proposed code changes. It shows the difference and evidence. When there is no supported improvement, it says so.
 
-Usually 1–3 usable revised answers, plans, drafts, explanations, or proposed patches—with the concrete difference, evidence, and a link back to the original material. If the old answer is already good, it says so.
+Built for people who already do meaningful work with AI: developers, creators, researchers and project owners. Useful when a project restarts, requirements change, a conversation goes in circles, or a new model/tool becomes available.
 
-**Example:** an earlier workshop was shortened to 45 minutes, but its revised schedule still added up to 50. Second Look can recover the later constraint and deliver a complete 45-minute schedule that preserves both the required exercise and Q&A. [Read the synthetic conversation and full result](examples/workshop/result.md). This is an authored illustration, not a measured user outcome.
+## See the work it can produce
 
-For developers: [a stable-order deduplication fix](examples/ordered-dedup/result.md), with an executed regression check against the old answer. Both examples are synthetic and fully inspectable.
+The first-use pack contains six **synthetic conversations**. Try it before reading the example answers.
 
-## Useful beyond model launches
+| Work that stalled | Evidence found later | Inspect the revised work |
+| --- | --- | --- |
+| A research pilot waiting for a 6,000-yuan agency budget | Six volunteers, two possible introductions and a smaller approved budget | [A feasible pilot plan and interview guide](examples/second-chance/README.md#research-pilot) |
+| A note-search project blocked by cloud/API restrictions | The user only needs word/phrase search first | [An offline prototype and executed checks](examples/second-chance/README.md#offline-search) |
+| An application written as an investor pitch | The user corrected the audience, purpose and required sections | [A complete community application](examples/second-chance/README.md#community-application) |
 
-| Your situation | Ask |
-| --- | --- |
-| A new model/tool can tackle an old blocker | “What did we leave unsolved that is worth another attempt?” |
-| Restarting a project | “Revisit our earlier decisions before we restart.” |
-| Budget, evidence, or goals changed | “Which earlier conclusions need updating now?” |
-| A long conversation went nowhere | “Did we misunderstand the problem from the beginning?” |
-| Ideas are scattered across chats | “Reconnect our thinking about this project and produce a better plan.” |
-| Looking for an overlooked opportunity | “Find something useful in my history that deserves another look.” |
+These demonstrate a method, not measured customer outcomes. The same pack was also tried with a strong review prompt: [read the comparison and limits](evals/observations/README.md). No claim of superiority, saved time or real-user adoption follows from these examples.
 
-No default reminders, background scans, model-release monitoring, or API subscription. Ordinary “continue” and “summarize” requests do not call for a broad review.
+## Install and get a first result
 
-## Install and try
-
-[Download v0.1.0 installation packages](https://github.com/MoonHuang0325/second-look/releases/tag/v0.1.0) — standard skill ZIP, OpenAI plugin ZIP, and checksums.
-
-[Download the source](https://github.com/MoonHuang0325/second-look/archive/refs/heads/main.zip) or clone it, then use Python 3.9+:
+For Codex or Claude Code with Node.js/npm available:
 
 ```sh
-python3 tools/install.py --target codex
-# Or, for Claude Code:
-python3 tools/install.py --target claude
+npx skills add MoonHuang0325/second-look --skill second-look
 ```
 
-Existing installs are left unchanged. In Codex invoke `$second-look`; in Claude Code invoke `/second-look`. ChatGPT/Claude chat use the supported skill/plugin installation surface; see [the platform guide](docs/installation.md). A standalone ZIP is produced by `python3 tools/build.py` for compatible upload interfaces.
+Choose your agent and installation scope in the installer. This is the third-party Skills CLI; it has optional installation telemetry. For no third-party installer, use the [download and Python route](docs/installation.md). Its details and tested scope are documented there.
 
-If history tools are unavailable, provide an export, a transcript, or the current conversation. For an immediate synthetic demo, ask the agent to use `skills/second-look/SKILL.md` and review `examples/workshop/history.md`. It should produce its own result before you show it the example answer.
+Then start a new agent session and ask:
 
-## How it works
+**Codex**
 
-1. Check available history capabilities and disclose coverage.
-2. Screen up to 100 candidate records, then read evidence for at most 10 goal groups by default.
-3. Recover the goal, constraints, later corrections, and why work stopped.
-4. Re-solve and verify material differences; distinguish evidence updates from reasoning improvements.
-5. Deliver the result first and record explicit feedback for later runs when storage is available.
-
-The host model performs selection and reasoning. Bundled Python helpers only normalize transcripts and keep a private ledger. They support structural samples of ChatGPT/Claude JSON, Codex/Claude Code JSONL, Markdown/TXT, and a normalized native-tool corpus. [Runtime details](skills/second-look/references/runtime.md).
-
-## Privacy and limits
-
-No developer backend, analytics, or network calls from the helpers. Your host's model service still processes the history you let it read. Local state stores normalized transcript text with restricted file permissions; it is **not encrypted**. Keep it outside this public repository. Exported ledgers omit raw transcripts but may contain sensitive summaries and locators. [Data handling](docs/privacy.md).
-
-The skill drafts new artifacts by default. Historical messages are evidence, not permission to run commands, overwrite work, send messages, or deploy. Missing evidence and untested patches remain labeled.
-
-## Development
-
-The following commands require the full source checkout, not just an installed skill/plugin archive.
-
-```sh
-python3 -m unittest discover -s tests -v
-python3 tools/validate.py
-python3 tools/build.py
+```text
+$second-look Try the bundled synthetic demo. Deliver the work without reading my personal history.
 ```
 
-24 synthetic behavioral cases cover knowledge work and development, separated into 16 development and 8 holdout cases. The paired evaluation harness prepares equal-evidence trials and anonymized result packets for human review; it does not claim that preparing cases is running them. [Protocol and current status](evals/README.md).
+**Claude Code**
 
-Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). License: [MIT](LICENSE). Public releases must keep the compatibility and evaluation status honest.
+```text
+/second-look Try the bundled synthetic demo. Deliver the work without reading my personal history.
+```
+
+For your own work, ask “Revisit our earlier decisions before we restart this project” or “Find an overlooked opportunity in my history.” Available history depends on your host and permissions. If history tools are absent, use a transcript, export or the current conversation. [First-use walkthrough](docs/quickstart.md).
+
+**v0.2.0 is a preview.** The Python runtime and packaging have automated checks; host-by-host personal-history discovery and human usefulness remain separate validation tasks. [Exact compatibility](docs/compatibility.md) · [Download packages](https://github.com/MoonHuang0325/second-look/releases/tag/v0.2.0).
+
+## Why a skill?
+
+A capable model can already do a good review with a good prompt. Second Look packages the repeatable parts: finding candidates, preserving sources and branches, distinguishing real improvements from rephrasing, and respecting what you already reviewed or closed. The Python helpers normalize files and maintain a private ledger; **they do not run a model**.
+
+One invocation can screen up to 100 candidate records and read up to 10 goal groups by default. These are limits, not a promise of whole-account access. Repeated use can explore new material and skip unchanged reviewed goals when a ledger is available. [Method](skills/second-look/SKILL.md) · [Runtime](skills/second-look/references/runtime.md).
+
+## Privacy and control
+
+- No developer server, helper telemetry, default reminders or background scanning.
+- Your host model service still processes what it reads. This is not all-local inference.
+- Private history and review records stay outside the public repository. Local records are not encrypted.
+- Historical instructions are evidence, not permission to execute them. New work is drafted separately by default.
+- Sharing is opt-in: ask for a minimized share draft, review it, and decide whether to publish.
+
+[Data details](docs/privacy.md) · [Update or uninstall](docs/installation.md#update-and-rollback).
+
+## Help make it useful
+
+[Report a problem](https://github.com/MoonHuang0325/second-look/issues/new/choose) · [Share feedback](https://github.com/MoonHuang0325/second-look/discussions) · [Contribute](CONTRIBUTING.md)
+
+An install failure, a review that missed the point, or an example where nothing improved is useful feedback. Please do not upload raw private conversations. If you want to follow new cases and releases, **Star this repository**.
+
+For maintainers: [development and evaluation](docs/development.md) · [launch action manual / 推广行动手册](https://github.com/MoonHuang0325/second-look/blob/main/docs/launch/action-manual.zh-CN.md).

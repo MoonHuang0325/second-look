@@ -1,14 +1,9 @@
 # Release status and checklist
 
-Version: 0.1.0 prototype. Public source: [MoonHuang0325/second-look](https://github.com/MoonHuang0325/second-look). Reproducible installation archives accompany prototype releases. GitHub publication does not imply an approved marketplace listing or completed user study.
+Current release: **v0.2.0 preview**. [Public source](https://github.com/MoonHuang0325/second-look) · [Release](https://github.com/MoonHuang0325/second-look/releases/tag/v0.2.0) · [Changes](../CHANGELOG.md).
 
-Release checks and evaluation follow-up:
+Before a release: run the runtime tests and validators, rerun changed demo code, inspect the diff and allowlisted archives for private data, and verify reproducible hashes. Publish the standard skill ZIP, OpenAI plugin ZIP, optional launch-kit ZIP and SHA256SUMS. Both installation packages use the same core. Confirm checks on the exact pushed revision.
 
-- Run automated tests, validation, and reproducible builds. Inspect the package contents and source diff for private data.
-- Keep the compatibility matrix tied to actual host/version tests. Record untested platforms as such.
-- Publish the standard skill ZIP, OpenAI plugin ZIP and SHA256SUMS alongside source. Both packages derive from the same core.
-- Pending evaluation: run development paired model trials, fix demonstrated problems, freeze the evaluated version, then run the holdout set without tuning against it.
-- Label releases “prototype” until live host behavior and user efficacy have been assessed. Never turn the 70%/50% pilot goals into marketing claims.
-- GitHub creation/push requires the owner's authenticated GitHub destination. Directory submission is separate from GitHub publication. Use an owner-approved account and repository; don't invent a URL.
+Two independent synthetic development exercises are documented with a strong baseline; this does not complete the 24-case paired model evaluation or real-user pilot. Keep host integration, installation mechanics and human usefulness distinct in the compatibility matrix.
 
-Deferred: platform history connectors where native access is absent; default scheduling; model-release detection; vector database; external API/backend; team data sharing. Each should follow demonstrated need and preserve the small core.
+No marketplace approval is implied. Native history connectors where tools are absent, model-release monitoring and default scheduling remain deferred. Only add proactive behavior after demonstrated user demand. The pilot's 70%/50% targets are hypotheses, not marketing statistics.

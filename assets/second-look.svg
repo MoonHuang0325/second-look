@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+<title id="title">Second Look — Your important questions deserve another answer.</title>
+<desc id="desc">Rediscover a stalled question, revisit the evidence, and deliver usable work. Open source Agent Skill. Synthetic demo available.</desc>
+<rect width="1280" height="640" fill="#101d28"/>
+<circle cx="1090" cy="60" r="270" fill="#183338"/>
+<circle cx="1210" cy="620" r="280" fill="#142932"/>
+<g transform="translate(72 68)"><path d="M0 26A26 26 0 1 1 26 52" fill="none" stroke="#b8eecc" stroke-width="6"/><path d="M26 40v12h12" fill="none" stroke="#b8eecc" stroke-width="6" stroke-linecap="round"/><circle cx="26" cy="26" r="6" fill="#b8eecc"/></g>
+<g fill="#f5f3e9" font-family="Arial, Helvetica, sans-serif">
+<text x="146" y="108" font-size="31" font-weight="700">Second Look</text>
+<text x="74" y="225" font-size="55" font-weight="700">Your important questions</text>
+<text x="74" y="295" font-size="55" font-weight="700">deserve another answer.</text>
+<text x="76" y="351" font-size="23" fill="#b9c9cf">Revisit past conversations. Deliver work you can use.</text>
+</g>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="74" y="413" width="331" height="118" rx="15" fill="#21323e" stroke="#38515d"/>
+<text x="99" y="448" fill="#b8eecc" font-size="16" font-weight="700">01 / REDISCOVER</text><text x="99" y="490" fill="#f5f3e9" font-size="22">A question you left behind</text>
+<rect x="425" y="413" width="331" height="118" rx="15" fill="#21323e" stroke="#38515d"/>
+<text x="450" y="448" fill="#b8eecc" font-size="16" font-weight="700">02 / RECONSIDER</text><text x="450" y="490" fill="#f5f3e9" font-size="22">New context. Better framing.</text>
+<rect x="776" y="413" width="430" height="118" rx="15" fill="#b8eecc"/>
+<text x="801" y="448" fill="#17322b" font-size="16" font-weight="700">03 / DELIVER</text><text x="801" y="490" fill="#10271f" font-size="22">A usable result, with evidence</text>
+<text x="76" y="588" fill="#a6bbc4" font-size="17">OPEN SOURCE AGENT SKILL · MIT · SYNTHETIC DEMO INCLUDED</text>
+<text x="1204" y="588" text-anchor="end" fill="#b8eecc" font-size="17">v0.2.0 preview</text>
+</g></svg>

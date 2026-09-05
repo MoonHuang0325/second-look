@@ -12,3 +12,9 @@
 简要说明：没有开发者服务器或遥测，但模型平台仍会处理读取的内容。本地数据库包含对话文字且未加密；请放在私人目录。导出记录虽然不含原文全文，也不能默认公开。不要在公开 issue 中提交真实对话、令牌、个人信息或客户材料。
 
 Security concerns should be reported without sensitive content through the repository owner's private reporting channel once available. Do not publish a working exploit containing another person's data. This project does not yet have a hosted support address.
+
+## Optional installers and sharing
+
+The optional third-party Skills CLI has its own installation telemetry; disable it as described in [installation](installation.md). This is separate from the telemetry-free Second Look helpers. The demo command copies bundled synthetic text only and does not open the history store or run a model.
+
+Sharing is opt-in. A share draft should remove private names, paths, links and confidential figures, distinguish synthetic examples from real reported outcomes, and leave publication to the user. Review ledgers are not public feedback attachments.

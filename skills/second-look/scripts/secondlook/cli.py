@@ -9,6 +9,7 @@ from pathlib import Path
 
 from . import __version__
 from .history import load
+from .demo import prepare as prepare_demo
 from .store import Store, private_directory
 
 
@@ -20,6 +21,8 @@ def parser():
     sub = p.add_subparsers(dest="command", required=True)
     cap = sub.add_parser("capabilities", help="Report helper capabilities, without opening a database")
     cap.add_argument("--local", action="store_true", help="Check known local transcript directory existence only")
+    demo = sub.add_parser("demo", help="Copy the synthetic first-use pack; does not run a model")
+    demo.add_argument("--output", required=True, help="New directory for the demo files")
     sub.add_parser("status", help="Find pending runs, exclusions, reviewed goals and source count")
     imp = sub.add_parser("import", help="Import explicitly selected transcript files, atomically per file")
     imp.add_argument("paths", nargs="+")
@@ -79,6 +82,8 @@ def main(argv=None):
     try:
         if args.command == "capabilities":
             result = capabilities(args.local)
+        elif args.command == "demo":
+            result = prepare_demo(args.output)
         else:
             store = Store(args.store)
             if args.command == "status":

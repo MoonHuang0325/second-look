@@ -3,7 +3,7 @@ name: second-look
 description: Revisit past conversations and work to discover worthwhile unresolved questions, reconsider assumptions, and deliver improved answers or usable drafts. Use when the user asks to find overlooked opportunities in their history, rethink an old decision, revive a project, or revisit work after new information or model capabilities. Also matches 重新审视、以前有没有没想透的事、重新思考过去的方案. Ordinary continuation, summarization, and new tasks alone do not call for a history scan.
 license: MIT
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Second Look
@@ -19,6 +19,8 @@ Find something worth thinking through again, then actually think it through and 
 - No scheduled scans, upgrade monitoring, hooks, or background notifications are installed by this skill. Natural language matching does not authorize interrupting unrelated work.
 
 ## Discover evidence before choosing work
+
+For installation checks, a first try, or an explicit demo, read [first-run.md](references/first-run.md). Sample history is used only when the user asks for a demo; a personal-history request still starts with real capability discovery.
 
 Read [history.md](references/history.md) to select the available history path. Prefer real host listing/search/read tools, then permitted local transcripts or supplied exports. Tool names in examples are possibilities, not promises that a tool exists.
 
@@ -42,7 +44,7 @@ If evidence is insufficient, deliver a labeled hypothesis and a minimal verifica
 
 ## Deliver the value first
 
-Read [delivery.md](references/delivery.md). Return the strongest 1–3 results, or fewer/none if warranted. Lead with the usable new result, not a long retrospective report. Make the selection reason, prior stopping point, material change, verification, and original source easy to inspect.
+Read [delivery.md](references/delivery.md). If the user explicitly asks to share a result, read [sharing.md](references/sharing.md) and draft a reviewable, minimized copy; never publish it automatically. Return the strongest 1–3 results, or fewer/none if warranted. Lead with the usable new result, not a long retrospective report. Make the selection reason, prior stopping point, material change, verification, and original source easy to inspect.
 
 Use one honest outcome label: **supported improvement / 有依据的改进**, **direction to test / 值得验证的新方向**, or **retain original / 保留原结论**. Different wording alone is not a supported improvement. Keep hypotheses distinct from verified results and avoid numeric confidence theater.
 

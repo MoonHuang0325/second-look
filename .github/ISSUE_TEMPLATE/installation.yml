@@ -1,0 +1,30 @@
+name: Installation problem / 安装失败
+description: Report the host, install route and observed error without private data.
+title: "[Install] "
+labels: [bug]
+body:
+  - type: input
+    id: environment
+    attributes:
+      label: Host, OS and version / 环境
+      placeholder: Codex desktop, macOS, version if known
+    validations:
+      required: true
+  - type: dropdown
+    id: route
+    attributes:
+      label: Installation route / 安装方式
+      options:
+        - Skills CLI
+        - Python installer
+        - ZIP upload
+        - Manual instructions
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened and what you expected / 实际与预期
+      description: Include a minimized error and skill version. Remove usernames, paths, tokens and transcripts.
+    validations:
+      required: true

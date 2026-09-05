@@ -35,6 +35,8 @@ No default reminders, background scans, model-release monitoring, or API subscri
 
 ## Install and try
 
+[Download v0.1.0 installation packages](https://github.com/MoonHuang0325/second-look/releases/tag/v0.1.0) — standard skill ZIP, OpenAI plugin ZIP, and checksums.
+
 [Download the source](https://github.com/MoonHuang0325/second-look/archive/refs/heads/main.zip) or clone it, then use Python 3.9+:
 
 ```sh

@@ -16,7 +16,8 @@ Status date: 2026-09-05. “Tested” below means a specific observed check, not
 | ChatGPT native history + plugin UI | Unverified | Requires actual exposed history tools and a supported plugin/skill installation surface. |
 | Claude chat/Cowork search + skill upload | Unverified | Requires account availability and live installation/history tests. |
 | Claude Code live skill invocation | Unverified | Installer is tested, but live host routing and history discovery require a session test. |
-| Windows/Linux, other Python versions | Unverified locally | Standard-library implementation and CI matrix provided; CI results are not claimed before they run. |
+| Python helpers on GitHub-hosted Ubuntu, macOS and Windows; Python 3.9 and 3.12 | Tested in CI | All six combinations passed the 40-test suite, structural validation and package build on 2026-09-05. [Run evidence](https://github.com/MoonHuang0325/second-look/actions/runs/33956459051). This does not establish live host integration. |
+| Other operating systems / Python versions | Unverified | No compatibility claim beyond the observed combinations above. |
 | Human usefulness / two-week reuse | Not run | See the evaluation protocol; no adoption statistics are available. |
 
 “格式测试通过”不等于“所有真实导出均支持”，“安装器通过”不等于“已在该产品中完整运行”。贡献者可以通过提交环境版本、无敏感数据的复现步骤与结果，逐项提升矩阵状态。

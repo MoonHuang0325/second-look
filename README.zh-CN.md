@@ -35,6 +35,8 @@ Second Look 会从可访问的历史中寻找值得重新思考的问题，恢�
 
 ## 安装与第一次体验
 
+[直接下载 v0.1.0 安装包](https://github.com/MoonHuang0325/second-look/releases/tag/v0.1.0)：提供标准 skill ZIP、OpenAI 插件 ZIP 和校验文件。
+
 [下载并解压源码](https://github.com/MoonHuang0325/second-look/archive/refs/heads/main.zip)，使用 Python 3.9 或以上版本：
 
 ```sh

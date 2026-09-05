@@ -12,7 +12,7 @@ Second Look revisits accessible conversation history to discover worthwhile unre
 
 ## Validation and limits
 
-40 local automated tests pass on macOS with Python 3.9.6 and 3.12.14. Skill and plugin structure validation passes. Archives are reproducible and installed helpers run without third-party packages.
+40 local automated tests pass on macOS with Python 3.9.6 and 3.12.14. The same suite, structural validation and package build also passed in all six GitHub CI combinations: Ubuntu, macOS and Windows with Python 3.9 and 3.12. [CI evidence](https://github.com/MoonHuang0325/second-look/actions/runs/33956459051). Skill and plugin structure validation passes. Archives are reproducible and installed helpers run without third-party packages.
 
 These checks do not establish model efficacy, real-user adoption or every host's live compatibility. Paired model experiments, live ChatGPT/Claude installation/history checks and the two-week user pilot remain pending. See the compatibility matrix and evaluation protocol before making broader claims.
 

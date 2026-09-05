@@ -2,6 +2,8 @@
 
 The repository contains one canonical skill at `skills/second-look`. Python helpers require Python 3.9+; reasoning uses your host model, not a separate API key. Without Python, the core instructions still work on visible text using host tools.
 
+[Download the v0.1.0 prototype packages / 下载原型安装包](https://github.com/MoonHuang0325/second-look/releases/tag/v0.1.0). Choose the standard skill ZIP for compatible custom-skill uploads, or the OpenAI plugin ZIP for supported plugin surfaces. For the local installer below, download the full source checkout.
+
 ## Codex local / Codex 本地
 
 From an extracted source checkout:

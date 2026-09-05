@@ -20,7 +20,7 @@ This uses the third-party [Skills CLI](https://github.com/vercel-labs/skills), n
 
 ## Download and Python route
 
-Download a source archive from the [v0.2.0 preview release](https://github.com/MoonHuang0325/second-look/releases/tag/v0.2.0), extract it, and run from its folder:
+Download a source archive from the [v0.2.1 preview release](https://github.com/MoonHuang0325/second-look/releases/tag/v0.2.1), extract it, and run from its folder:
 
 ```sh
 python3 tools/install.py --target codex
@@ -52,7 +52,7 @@ For symlink installs or installs managed by another tool, update with that origi
 
 ## Claude chat / Cowork and OpenAI plugin surfaces
 
-The release includes a standard `second-look-0.2.0-skill.zip` and `second-look-0.2.0-openai-plugin.zip`, generated from the same core. Use the standard ZIP only on a product/account that exposes compatible custom-skill uploads. The plugin ZIP is a distribution artifact, not a marketplace approval or promise of ChatGPT chat installation.
+The release includes a standard `second-look-0.2.1-skill.zip` and `second-look-0.2.1-openai-plugin.zip`, generated from the same core. Use the standard ZIP only on a product/account that exposes compatible custom-skill uploads. The plugin ZIP is a distribution artifact, not a marketplace approval or promise of ChatGPT chat installation.
 
 These account-specific native upload, routing and whole-history flows remain unverified for this release. Do not assume Claude Code installation also installs Claude chat, or that a Codex folder exposes all ChatGPT conversations. [Exact compatibility](compatibility.md).
 

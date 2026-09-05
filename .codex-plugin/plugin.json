@@ -1,7 +1,7 @@
 {
   "name": "second-look",
-  "version": "0.2.0",
-  "description": "Find worthwhile questions in past conversations, rethink them, and deliver improved answers or work.",
+  "version": "0.2.1",
+  "description": "Turn unfinished AI conversations into usable revised work, with sources you can check.",
   "license": "MIT",
   "author": {
     "name": "Second Look contributors",

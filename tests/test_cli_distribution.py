@@ -174,14 +174,13 @@ class DistributionTests(unittest.TestCase):
             a = builder.build(Path(td) / "a")
             b = builder.build(Path(td) / "b")
             self.assertEqual(a, b)
+            self.assertEqual(len(a), 2)
             for name in a:
                 with zipfile.ZipFile(Path(td) / "a" / name) as archive:
                     names = archive.namelist()
-                    if name.endswith("-launch-kit.zip"):
-                        self.assertIn("second-look-launch/START.md", names)
-                    else:
-                        self.assertTrue(any(n.endswith("/assets/demo/history.md") for n in names))
-                        self.assertTrue(any(n.endswith("/SKILL.md") for n in names))
+                    self.assertTrue(any(n.endswith("/assets/demo/history.md") for n in names))
+                    self.assertTrue(any(n.endswith("/SKILL.md") for n in names))
+                    self.assertFalse(any("docs/launch/" in n or n.endswith("/evals/pilot.md") for n in names))
                     self.assertFalse(any("__pycache__" in n or "eval-runs" in n or n.endswith(".sqlite3") or "holdout" in n for n in names))
                     self.assertFalse(any(n.startswith("/") or ".." in Path(n).parts for n in names))
                     if name.endswith("-skill.zip"):

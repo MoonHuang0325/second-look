@@ -3,7 +3,7 @@ name: second-look
 description: Revisit past conversations and work to discover worthwhile unresolved questions, reconsider assumptions, and deliver improved answers or usable drafts. Use when the user asks to find overlooked opportunities in their history, rethink an old decision, revive a project, or revisit work after new information or model capabilities. Also matches 重新审视、以前有没有没想透的事、重新思考过去的方案. Ordinary continuation, summarization, and new tasks alone do not call for a history scan.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # Second Look

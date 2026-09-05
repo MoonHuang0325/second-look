@@ -51,14 +51,12 @@ python3 tools/evaluate.py summary --output /tmp/second-look-evaluation
 
 Only actual human judgments should enter the rating files. Automated summaries report raw counts and flag mismatched model pairs; they are not statistical significance tests. Negative-routing and retain-original cases are not expected to produce a novel improvement. Inspect these separately when interpreting usefulness counts.
 
-## Real-user pilot
+## Evidence status
 
-Recruit at least 5 knowledge workers and 5 developers through channels the project owner authorizes. No messages are sent by this repository. Participants keep source histories in their own environments and share only opt-in, minimized feedback. Use [the study worksheet](pilot.md).
+The paired 24-case model evaluation and real-user usefulness study remain uncompleted. Contributors can report an observed result with the host/version, actual accessible material, exact behavior and a minimal synthetic reproduction. Do not publish private histories or infer population-wide outcomes from a few examples.
 
-Targets to test, not promises: at least 70% of first sessions find something worth attention; at least 50% yield a result the user would adopt or test. Observe two weeks of reuse outside model launches and record annoyance/irrelevant resurfacing. Serious evidence fabrication, unauthorized changes, or public private-data leakage is a release blocker.
-
-No real-user rates, adoption claims or production-readiness badge should appear until those measurements exist. Weak selection calls for better screening; useful work with a forgotten entry point calls for invocation UX changes. Scheduling remains deferred.
+Automated checks establish parser, ledger and packaging behavior. The [two development exercises](observations/README.md) show generated artifacts and limits; neither supplies an adoption rate or proof of superiority.
 
 ## 中文
 
-24 组合成案例与自动化单元测试已经提供，但不能据此声称真实用户有效。对照试验要求相同模型、材料、工具与预算条件；人工盲评时隐藏条件标签。工具负责准备、记录和汇总，不自动调用模型，也不编造测试结果。两周试用需要实际招募与用户参与，目前尚未开展。
+欢迎提供可复现的失败或平台行为记录。测试通过与合成演示不等于真实用户有效。保留相同模型、材料、工具和预算条件；未知资源消耗如实留空，人工评价不能由模型自评分代替。

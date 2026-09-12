@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/MoonHuang0325/second-look/compare/v0.3.0...v0.4.0) (2026-09-12)
+
+
+### Features
+
+* automate evaluation, expand cases to 40, add release-please and Gemini CLI support ([f0df5f3](https://github.com/MoonHuang0325/second-look/commit/f0df5f3eb54d686cc1aa4e07d61f616e94fc8b77))
+
 ## 0.3.0 — 2026-09-12 (preview)
 
 Model-change re-review becomes operational:

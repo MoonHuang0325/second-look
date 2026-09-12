@@ -33,9 +33,12 @@ def install(source, parent, upgrade=False):
     backup = None
     try:
         shutil.copytree(source, staging / "second-look", ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-        license_path = source.parents[1] / "LICENSE"
-        if license_path.is_file():
-            shutil.copy2(license_path, staging / "second-look/LICENSE")
+        # LICENSE may sit at the repository root (<root>/skills/second-look) or next to
+        # the skill inside a standalone skill zip. Skip silently only if absent in both.
+        for license_path in (source.parents[1] / "LICENSE", source.parent / "LICENSE"):
+            if license_path.is_file() and license_path.parent != source:
+                shutil.copy2(license_path, staging / "second-look/LICENSE")
+                break
         if exists:
             # Backup is outside the discoverable skills directory, so its SKILL.md cannot
             # become a second active copy. User additions stay in this recoverable copy.

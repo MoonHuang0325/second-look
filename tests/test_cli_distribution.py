@@ -52,8 +52,12 @@ class CliTests(unittest.TestCase):
         self.cli("inspected", key)
         self.assertTrue(self.cli("eligible", "--goal", "workshop", "--keys", key)["eligible"])
         self.cli("record", "--goal", "workshop", "--keys", key, "--outcome", "supported_improvement",
-                 "--summary", "Durations corrected", "--evidence", "history.md:9", "--artifact", "reply:1")
-        self.assertFalse(self.cli("eligible", "--goal", "workshop", "--keys", key)["eligible"])
+                 "--summary", "Durations corrected", "--evidence", "history.md:9", "--artifact", "reply:1",
+                 "--model", "model-a")
+        self.assertFalse(self.cli("eligible", "--goal", "workshop", "--keys", key, "--model", "model-a")["eligible"])
+        changed = self.cli("detect-model", "--model", "model-b")
+        self.assertTrue(changed["model_changed"])
+        self.assertEqual(changed["goals_eligible_for_recheck"], ["workshop"])
         self.cli("run", "--id", run["id"], "--finish")
         ledger = self.root / "ledger.json"
         self.cli("export-ledger", "--output", str(ledger))
@@ -61,7 +65,7 @@ class CliTests(unittest.TestCase):
         self.store = self.root / "restored"
         self.import_demo()
         self.cli("restore-ledger", str(ledger))
-        self.assertFalse(self.cli("eligible", "--goal", "workshop", "--keys", key)["eligible"])
+        self.assertFalse(self.cli("eligible", "--goal", "workshop", "--keys", key, "--model", "model-a")["eligible"])
 
     def test_mixed_import_reports_failure(self):
         bad = self.root / "bad.json"

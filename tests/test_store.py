@@ -39,11 +39,16 @@ class StoreTests(unittest.TestCase):
         self.assertFalse(self.store.eligible("workshop", self.keys, "model-a")["eligible"])
         self.assertTrue(self.store.eligible("another-goal", self.keys, "model-a")["eligible"])
         self.assertTrue(self.store.eligible("workshop", self.keys, "model-b")["eligible"])
-        self.assertFalse(self.store.eligible("workshop", self.keys, None)["eligible"])
+        # An unknown current model cannot prove sameness, so the goal stays eligible.
+        self.assertTrue(self.store.eligible("workshop", self.keys, None)["eligible"])
 
-    def test_unknown_model_not_invented_change(self):
+    def test_unknown_model_neither_suppresses_nor_invents_change(self):
         self.review()
-        self.assertFalse(self.store.eligible("workshop", self.keys, "model-b")["eligible"])
+        # A prior unknown-model review must not permanently block a known new model.
+        result = self.store.eligible("workshop", self.keys, "model-b")
+        self.assertTrue(result["eligible"])
+        self.assertEqual(result["reason"], "reviewed_with_unknown_model")
+        self.assertTrue(self.store.eligible("workshop", self.keys, None)["eligible"])
 
     def test_new_context_content_and_explicit_retry(self):
         self.review()
@@ -94,7 +99,9 @@ class StoreTests(unittest.TestCase):
         try:
             other.ingest([self.record])
             other.restore(ledger)
-            self.assertFalse(other.eligible("workshop", self.keys)["eligible"])
+            # The restored review used an unknown model, so suppression must not apply.
+            self.assertTrue(other.eligible("workshop", self.keys)["eligible"])
+            self.assertTrue(other.eligible("workshop", self.keys, "model-a")["eligible"])
             self.assertEqual(other.candidates()["returned"], 0)
         finally:
             other.close()
@@ -148,6 +155,55 @@ class StoreTests(unittest.TestCase):
         self.assertEqual(candidates[0]["updated_at"], "2026-01-12")
         self.assertNotEqual(candidates[2]["key"], candidates[1]["key"])
         self.assertEqual(self.store.candidates(query="UNRESOLVED")["returned"], 12)
+
+    def test_detect_model_reports_change_and_recheckable_goals(self):
+        self.assertFalse(self.store.detect_model("model-a")["model_changed"])
+        self.review("model-a")
+        self.store.review("reading", self.keys, "retain_original", "Held", ["input.md:1"], "reply:2", None)
+        self.store.feedback("reading", "goal", "closed")
+        result = self.store.detect_model("model-b")
+        self.assertTrue(result["model_changed"])
+        self.assertEqual(result["recorded_models"], ["model-a"])
+        self.assertTrue(result["has_unknown_model_records"])
+        self.assertEqual(result["goals_eligible_for_recheck"], ["workshop"])
+        self.assertFalse(self.store.detect_model("model-a")["model_changed"])
+        with self.assertRaises(ValueError):
+            self.store.detect_model("  ")
+
+    def test_important_feedback_surfaces_goal_sources_first(self):
+        self.review("model-a")
+        older = plain("User: Older task", self.root / "older.txt")[0]
+        older["updated_at"] = "2020-01-01T00:00:00Z"
+        self.store.ingest([older])
+        self.store.feedback("workshop", "goal", "important")
+        candidates = self.store.candidates(limit=2, include_inspected=True)["candidates"]
+        self.assertEqual(candidates[0]["key"], self.keys[0])
+        self.assertEqual(candidates[0]["feedback"], "important")
+        self.assertIsNone(candidates[1]["feedback"])
+        # important never resurrects an excluded source
+        self.store.feedback(self.keys[0], "source", "exclude")
+        self.assertEqual(self.store.candidates(include_inspected=True)["returned"], 1)
+
+    def test_goal_feedback_warns_on_unknown_or_close_ids(self):
+        self.review("model-a")
+        result = self.store.feedback("workshp", "goal", "closed")
+        self.assertIn("New goal ID", result["warning"])
+        self.assertIn("workshop", result["warning"])
+        result = self.store.feedback("workshop", "goal", "closed")
+        self.assertIsNone(result["warning"])
+        result = self.store.feedback("brand-new", "goal", "important")
+        self.assertIn("New goal ID", result["warning"])
+
+    def test_ledger_restore_accepts_important_feedback(self):
+        self.store.feedback("workshop", "goal", "important")
+        ledger = self.store.ledger()
+        other = Store(self.root / "other")
+        try:
+            other.ingest([self.record])
+            other.restore(ledger)
+            self.assertEqual(other.feedback_value("workshop", "goal"), "important")
+        finally:
+            other.close()
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ name: second-look
 description: Revisit past conversations and work to discover worthwhile unresolved questions, reconsider assumptions, and deliver improved answers or usable drafts. Use when the user asks to find overlooked opportunities in their history, rethink an old decision, revive a project, or revisit work after new information or model capabilities. Also matches 重新审视、以前有没有没想透的事、重新思考过去的方案. Ordinary continuation, summarization, and new tasks alone do not call for a history scan.
 license: MIT
 metadata:
-  version: "0.2.1"
+  version: "0.3.0"
 ---
 
 # Second Look
@@ -16,7 +16,7 @@ Find something worth thinking through again, then actually think it through and 
 - A named project, decision, or frustration means focus on that goal and related history. Do not widen it into a whole-account review.
 - Infer scope from the request. Do not present a mode questionnaire. Ask only for missing information that materially blocks a selected result; continue other candidates meanwhile.
 - Default to today's circumstances. An explicit comparison under the original information freezes those inputs instead. Attribute changes to new evidence, changed goals, reasoning corrections, or presentation; do not credit a model upgrade without a controlled comparison.
-- No scheduled scans, upgrade monitoring, hooks, or background notifications are installed by this skill. Natural language matching does not authorize interrupting unrelated work.
+- No scheduled scans, upgrade monitoring, hooks, or background notifications are installed by this skill. Natural language matching does not authorize interrupting unrelated work. When the host or user reveals a model/config change in the current conversation, use `detect-model` ([runtime.md](references/runtime.md)) to find goals worth re-reviewing, and say briefly why this run matters now.
 
 ## Discover evidence before choosing work
 
@@ -56,6 +56,6 @@ End with brief coverage: what was accessible, what was screened/read, missing ma
 
 When persistence is available, use [runtime.md](references/runtime.md) to keep fingerprints, reviewed goal IDs, actual model ID if known, revisit context, outcomes, and explicit feedback. Record a review only after its result is delivered/saved; unfinished runs stay pending. Exclusions can be undone. Silence is not acceptance.
 
-Skip unchanged reviewed goals unless new material, explicit changed circumstances, a known different model, or an explicit retry provides a reason. A routine broad invocation does not mean redo everything. Mark selected records inspected so discovery reaches older work. Novel goals in an already read conversation remain eligible.
+Skip unchanged reviewed goals unless new material, explicit changed circumstances, a known different model, or an explicit retry provides a reason. Suppression applies only on a definite same-model match; a review recorded with an unknown model never permanently blocks re-review. A routine broad invocation does not mean redo everything. Mark selected records inspected so discovery reaches older work. Novel goals in an already read conversation remain eligible. When the user explicitly calls a goal or source important, record that as `important` feedback so later runs surface it first.
 
 Without persistence, offer a portable review ledger and state that cross-chat repeat suppression needs that ledger next time. Keep private data outside the public skill/repository. Helpers send no telemetry, but the host's model service still processes material it reads.

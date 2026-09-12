@@ -31,6 +31,6 @@ A supported improvement requires an identifiable difference, evidence, and relev
 
 ## Revisit conditions
 
-Record observed model IDs only; unknown is null. A known different model may justify reconsideration; an unknown ID cannot. Record explicitly changed circumstances as revisit context; generic invocation wording is not a new circumstance.
+Record observed model IDs only; unknown is null. A known different model may justify reconsideration; an unknown ID cannot prove a change—but a review recorded under an unknown model also cannot prove sameness, so such reviews never permanently suppress a goal. Record explicitly changed circumstances as revisit context; generic invocation wording is not a new circumstance.
 
-`closed`/`exclude` suppress identified goals or sources until `include` reverses them. `accepted` and `dismissed` require explicit feedback. Never infer adoption from silence or convert a temporary choice into a personality rule. A specific request to reconsider an excluded item can override it for that run without changing its standing preference.
+`closed`/`exclude` suppress identified goals or sources until `include` reverses them. `important` marks explicitly valued goals or sources so discovery surfaces them first; it does not override suppression. `accepted` and `dismissed` require explicit feedback. Never infer adoption or importance from silence or convert a temporary choice into a personality rule. A specific request to reconsider an excluded item can override it for that run without changing its standing preference.

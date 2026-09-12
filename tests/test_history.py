@@ -135,6 +135,17 @@ class HistoryTests(unittest.TestCase):
         with self.assertRaises(ImportFailure):
             validate_record(bad)
 
+    def test_foreign_jsonl_with_stray_event_field_rejected(self):
+        rows = [{"type": "event_msg", "payload": {"note": "looks codex-like"}}]
+        rows += [{"type": "metric", "value": i} for i in range(4)]
+        with self.assertRaises(ImportFailure):
+            load(self.jsonl(rows))
+        claude_rows = [{"type": "user", "uuid": str(i), "sessionId": "s1",
+                        "message": {"role": "user", "content": "Q" + str(i)}} for i in range(3)]
+        claude_rows.append({"type": "event_msg", "payload": {"note": "stray"}})
+        records = load(self.jsonl(claude_rows))
+        self.assertEqual(records[0]["source"], "claude-code")
+
 
 if __name__ == "__main__":
     unittest.main()

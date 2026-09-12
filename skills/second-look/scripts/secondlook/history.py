@@ -285,9 +285,13 @@ def load(path, max_bytes=100 * 1024 * 1024):
         rows = [(i, json.loads(line)) for i, line in enumerate(text.splitlines(), 1) if line.strip()]
         if not rows or any(not isinstance(r, dict) for _, r in rows):
             raise ImportFailure("Invalid JSONL events")
-        if any(r.get("type") in ("session_meta", "response_item", "event_msg") for _, r in rows):
+        # Format detection requires matching rows to dominate, so a stray shared field
+        # name (e.g. a generic "event_msg") cannot misroute a foreign log.
+        codex_rows = sum(r.get("type") in ("session_meta", "response_item", "event_msg") for _, r in rows)
+        claude_rows = sum(r.get("type") in ("user", "assistant") for _, r in rows)
+        if codex_rows > len(rows) / 2:
             return codex_log(rows, path)
-        if any(r.get("type") in ("user", "assistant") for _, r in rows):
+        if claude_rows > len(rows) / 2:
             return claude_log(rows, path)
         raise ImportFailure("Unsupported JSONL format")
     if path.suffix.lower() != ".json":

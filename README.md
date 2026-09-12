@@ -68,7 +68,7 @@ For your own work, ask:
 
 Second Look uses the history tools your host actually exposes. When those are unavailable, it can work with supplied Markdown/TXT, supported exports or visible conversation text. It cannot unlock whole-account history. [Formats and exact compatibility](docs/compatibility.md).
 
-The optional Python helpers normalize files and maintain a private review ledger. They do not run a model. With persistence, unchanged reviewed goals and explicitly closed topics can be skipped on later runs; without it, cross-chat memory needs an exported ledger. [How it works](skills/second-look/SKILL.md).
+The optional Python helpers normalize files and maintain a private review ledger. They do not run a model. With persistence, unchanged reviewed goals and explicitly closed topics can be skipped on later runs, an `important` flag keeps valued work at the front, and `detect-model` compares an observed model identifier against past reviews to list goals worth re-checking after an upgrade. Without persistence, cross-chat memory needs an exported ledger. [How it works](skills/second-look/SKILL.md).
 
 ## Your history stays under your control
 

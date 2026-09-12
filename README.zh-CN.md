@@ -68,7 +68,7 @@ npx skills add MoonHuang0325/second-look --skill second-look
 
 使用宿主真正提供的历史工具。没有这些工具时，可以处理你提供的 Markdown/TXT、支持的导出格式或当前可见对话。安装 skill 不会解锁全账号历史。[格式与准确的兼容范围](docs/compatibility.md)。
 
-可选 Python 工具负责整理文件与保存私人复盘记录，不调用模型。有持久记录时，后续运行可以跳过没有变化的已处理问题，尊重你明确关闭的主题；没有存储时，需要导出记录才能跨对话延续。[工作方法](skills/second-look/SKILL.md)。
+可选 Python 工具负责整理文件与保存私人复盘记录，不调用模型。有持久记录时，后续运行可以跳过没有变化的已处理问题，尊重你明确关闭的主题；用 `important` 标记的重要工作会排在最前；`detect-model` 可以把当前观察到的模型标识与历史复盘记录比对，列出升级后值得重检的目标。没有存储时，需要导出记录才能跨对话延续。[工作方法](skills/second-look/SKILL.md)。
 
 ## 由你控制历史与成果
 

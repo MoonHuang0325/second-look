@@ -26,7 +26,17 @@ After actually screening source records use `inspected <keys...>`; this advances
 ... eligible --goal workshop/45-minute-session --keys <key> --model <observed-model>
 ```
 
-Omit `--model` if unknown. `--context` describes explicitly changed circumstances; keep it stable across equivalent runs. `--retry` is for a specific user-requested retry, not default broad discovery. A new goal ID in the same conversation remains eligible.
+Omit `--model` if unknown. `--context` describes explicitly changed circumstances; keep it stable across equivalent runs. `--retry` is for a specific user-requested retry, not default broad discovery. A new goal ID in the same conversation remains eligible. Suppression of a reviewed goal requires a definite same-model match: a review recorded with an unknown model keeps the goal eligible (`reason: reviewed_with_unknown_model`), so an upgrade from an unidentified host is never permanently blocked.
+
+## Model-change detection
+
+When the current conversation reveals an observed model identifier (host configuration, user statement, or another trusted in-conversation source), compare it against the ledger before screening:
+
+```text
+... detect-model --model <observed-model-id>
+```
+
+The output reports `model_changed`, every previously recorded model identifier, and the reviewed goals that are not excluded or closed. A change is a concrete reason to re-review important goals; it is not proof of capability change. Never pass an assumed or invented identifier. The helper cannot observe the host's model itself—only compare identifiers you supply.
 
 After delivering/saving the result:
 
@@ -48,7 +58,7 @@ Outcome values: `supported_improvement`, `direction_to_test`, `retain_original`.
 ... run --id <run-id> --finish
 ```
 
-Scopes are `goal` and `source` (source target is a conversation key). Values: `exclude`, `closed`, `include`, `accepted`, `dismissed`. These record only explicit user feedback. Goal feedback requires the agent to resolve the user's topic to stable IDs; the helper does not perform semantic topic matching. Persist labels/mappings in the checkpoint and consult them on future runs.
+Scopes are `goal` and `source` (source target is a conversation key). Values: `exclude`, `closed`, `include`, `accepted`, `dismissed`, `important`. These record only explicit user feedback. `important` surfaces the goal's known sources first in `candidates` (a priority signal, not semantic ranking); it never resurrects an excluded or closed source. Goal feedback requires the agent to resolve the user's topic to stable IDs; the helper does not perform semantic topic matching, but it warns when feedback targets a goal ID no run has used and suggests similar existing IDs. Persist labels/mappings in the checkpoint and consult them on future runs.
 
 Pending runs can be inspected after interruption. Resume from saved progress and check source fingerprints before reusing work. Completed runs are immutable; start a new one. Finishing a run does not mark any goal reviewed—only `record` does that. Persist native source discovery cursors in checkpoints if supported.
 

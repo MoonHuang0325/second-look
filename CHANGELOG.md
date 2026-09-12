@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.3.0 — 2026-09-12 (preview)
+
+Model-change re-review becomes operational:
+
+- Add `detect-model`: compare an observed model identifier against the review
+  ledger and list non-excluded reviewed goals worth re-checking. Detection still
+  requires an identifier supplied inside the conversation; the helper observes
+  nothing by itself.
+- Fix duplicate suppression: a review recorded with an unknown model no longer
+  permanently blocks re-review. Suppression now requires a definite same-model
+  match (`reviewed_with_unknown_model` is reported instead of a silent block).
+  Existing ledgers adopt the new semantics automatically; no migration needed.
+- Add `important` feedback for explicitly valued goals/sources; candidates
+  surface them first. Goal feedback on an unused ID now warns and suggests
+  similar existing IDs instead of failing silently.
+- Harden JSONL format detection: a stray shared field name can no longer
+  misroute a foreign log; matching rows must dominate.
+- Find LICENSE both at the repository root and beside a standalone skill zip.
+- Add SECURITY.md with a private advisory channel, CODE_OF_CONDUCT.md,
+  a pull request template, and Dependabot for GitHub Actions.
+
+These changes make the model-upgrade scenario usable in-conversation. Scheduled
+or automatic triggering remains intentionally out of scope; real-user efficacy
+is still unverified.
+
 ## 0.2.1 — 2026-09-05 (preview)
 
 - Put a source-backed before/after result before the installation details.

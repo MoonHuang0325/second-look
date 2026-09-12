@@ -51,7 +51,11 @@ def parser():
     feedback = sub.add_parser("feedback")
     feedback.add_argument("--target", required=True)
     feedback.add_argument("--scope", required=True, choices=("goal", "source"))
-    feedback.add_argument("--value", required=True, choices=("exclude", "include", "closed", "accepted", "dismissed"))
+    feedback.add_argument("--value", required=True,
+                          choices=("exclude", "include", "closed", "accepted", "dismissed", "important"))
+    detect = sub.add_parser("detect-model", help="Compare an observed model identifier against the review ledger")
+    detect.add_argument("--model", required=True,
+                        help="Observed identifier only; never an assumed or invented one")
     run = sub.add_parser("run")
     run.add_argument("--id")
     run.add_argument("--checkpoint", help="JSON object with progress/cursors, not executable instructions")
@@ -114,8 +118,9 @@ def main(argv=None):
                 else:
                     result = store.review(args.goal, args.keys, args.outcome, args.summary, args.evidence, args.artifact, **options)
             elif args.command == "feedback":
-                store.feedback(args.target, args.scope, args.value)
-                result = {"target": args.target, "scope": args.scope, "value": args.value}
+                result = store.feedback(args.target, args.scope, args.value)
+            elif args.command == "detect-model":
+                result = store.detect_model(args.model)
             elif args.command == "run":
                 checkpoint = json.loads(args.checkpoint) if args.checkpoint else None
                 if checkpoint is not None and not isinstance(checkpoint, dict):

@@ -1,5 +1,6 @@
 """Transactional private corpus and goal-level review ledger."""
 
+import difflib
 import json
 import os
 import sqlite3
@@ -28,6 +29,9 @@ def private_directory(path):
             raise ValueError("Private data must be outside the public source repository")
     path.mkdir(mode=0o700, parents=True, exist_ok=True)
     return path
+
+
+FEEDBACK_VALUES = ("exclude", "include", "closed", "accepted", "dismissed", "important")
 
 
 class Store:
@@ -112,6 +116,14 @@ class Store:
     def candidates(self, limit=100, query=None, include_inspected=False, include_excluded=False):
         if not 1 <= limit <= 100:
             raise ValueError("Candidate limit must be 1–100")
+        important_goals = {r[0] for r in self.db.execute(
+            "SELECT target FROM feedback WHERE scope='goal' AND value='important'")}
+        goal_feedback = {}
+        if important_goals:
+            for row in self.db.execute("SELECT goal, data FROM reviews"):
+                if row["goal"] in important_goals:
+                    for source in json.loads(row["data"]).get("sources", []):
+                        goal_feedback[source["key"]] = "important"
         eligible = []
         for row in self.db.execute("SELECT * FROM conversations"):
             record = json.loads(row["data"])
@@ -124,9 +136,12 @@ class Store:
             if query and query.casefold() not in (record["title"] + "\n" + "\n".join(m["text"] for m in record["messages"])).casefold():
                 continue
             record["inspected_at"] = row["inspected_at"]
+            record["_feedback"] = feedback or goal_feedback.get(row["key"])
             eligible.append(record)
-        # Deterministic interleaving of recent and older unseen work; not semantic ranking.
-        eligible.sort(key=lambda r: (r.get("updated_at") or r.get("created_at") or "", r["key"]))
+        # Explicitly important sources surface first; then a deterministic interleaving
+        # of recent and older unseen work. This is not semantic ranking.
+        eligible.sort(key=lambda r: (r.get("_feedback") == "important",
+                                     r.get("updated_at") or r.get("created_at") or "", r["key"]))
         total = len(eligible)
         chosen = []
         while eligible and len(chosen) < limit:
@@ -136,6 +151,7 @@ class Store:
             result.append({k: r.get(k) for k in ("key", "source", "id", "branch", "title", "project",
                                                 "created_at", "updated_at", "completeness", "warnings", "locator")})
             result[-1].update({"fingerprint": r["fingerprint"], "message_count": len(r["messages"]),
+                               "feedback": r["_feedback"],
                                "preview": "\n".join(m["text"] for m in r["messages"] if m["role"] == "user")[:800]})
         return {"candidates": result, "eligible_count": total, "returned": len(result),
                 "coverage": "Imported corpus only; previews are not full evidence; no semantic ranking."}
@@ -150,16 +166,35 @@ class Store:
         row = self.db.execute("SELECT value FROM feedback WHERE target=? AND scope=?", (target, scope)).fetchone()
         return row[0] if row else None
 
+    def known_goals(self):
+        goals = set()
+        for row in self.db.execute("SELECT goal, data FROM reviews"):
+            goals.add(row["goal"])
+            for goal in json.loads(row["data"]).get("checkpoint", {}).get("selected_goals", []):
+                goals.add(goal)
+        goals.update(r[0] for r in self.db.execute("SELECT target FROM feedback WHERE scope='goal'"))
+        for row in self.db.execute("SELECT data FROM runs"):
+            for goal in json.loads(row["data"]).get("selected_goals", []):
+                goals.add(goal)
+        return goals
+
     def feedback(self, target, scope, value):
-        if scope not in ("source", "goal") or value not in ("exclude", "include", "closed", "accepted", "dismissed"):
+        if scope not in ("source", "goal") or value not in FEEDBACK_VALUES:
             raise ValueError("Invalid feedback scope/value")
         if not target:
             raise ValueError("Feedback target is required")
+        warning = None
         if scope == "source":
             self.read(target)
+        elif target not in self.known_goals():
+            close = difflib.get_close_matches(target, self.known_goals(), n=3, cutoff=0.6)
+            warning = "New goal ID; feedback will not affect earlier runs recorded under a different ID."
+            if close:
+                warning += " Similar existing goal IDs: " + ", ".join(sorted(close))
         with self.db:
             self.db.execute("""INSERT INTO feedback VALUES(?,?,?,?) ON CONFLICT(target,scope)
                 DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at""", (target, scope, value, now()))
+        return {"target": target, "scope": scope, "value": value, "warning": warning}
 
     def signature(self, keys):
         if not keys or len(set(keys)) != len(keys):
@@ -176,12 +211,37 @@ class Store:
             return {"eligible": False, "reason": "explicit_exclusion", "signature": signature}
         if retry:
             return {"eligible": True, "reason": "explicit_retry", "signature": signature}
-        # Unknown model is not a change signal. Any matching review prevents duplication.
+        # Duplicate suppression needs a definite same-model match: an unknown model on
+        # either side cannot prove change, but it also cannot prove sameness.
         rows = self.db.execute("SELECT model FROM reviews WHERE goal=? AND signature=? AND context=?",
                                (goal, signature, context)).fetchall()
-        matched = any(model is None or row["model"] is None or model == row["model"] for row in rows)
-        return {"eligible": not matched, "reason": "unchanged_reviewed_goal" if matched else "new_or_changed",
-                "signature": signature}
+        known = [row["model"] for row in rows if row["model"] is not None]
+        matched = model is not None and model in known
+        if matched:
+            reason = "unchanged_reviewed_goal"
+        elif rows:
+            reason = "reviewed_with_unknown_model"
+        else:
+            reason = "new_or_changed"
+        return {"eligible": not matched, "reason": reason, "signature": signature}
+
+    def detect_model(self, model):
+        if not model or not model.strip():
+            raise ValueError("An observed model identifier is required")
+        model = model.strip()
+        rows = self.db.execute("SELECT DISTINCT model FROM reviews").fetchall()
+        recorded = sorted(row["model"] for row in rows if row["model"] is not None)
+        unknown_records = any(row["model"] is None for row in rows)
+        changed = bool(recorded) and model not in recorded
+        eligible_goals = []
+        if changed:
+            for row in self.db.execute("SELECT DISTINCT goal FROM reviews"):
+                if not self.feedback_value(row["goal"], "goal") in ("exclude", "closed"):
+                    eligible_goals.append(row["goal"])
+        return {"observed_model": model, "recorded_models": recorded,
+                "has_unknown_model_records": unknown_records, "model_changed": changed,
+                "goals_eligible_for_recheck": sorted(eligible_goals),
+                "note": "Identifier comparison only; verify a model upgrade with a controlled comparison."}
 
     def review(self, goal, keys, outcome, summary, evidence, artifact, model=None, context="", retry=False):
         if outcome not in ("supported_improvement", "direction_to_test", "retain_original"):
@@ -242,7 +302,7 @@ class Store:
                 self.db.execute("INSERT INTO reviews VALUES(?,?,?,?,?,?,?)", tuple(r[k] for k in
                                 ("id", "goal", "signature", "model", "context", "data", "created_at")))
             for r in ledger.get("feedback", []):
-                if r["scope"] not in ("goal", "source") or r["value"] not in ("exclude", "include", "closed", "accepted", "dismissed"):
+                if r["scope"] not in ("goal", "source") or r["value"] not in FEEDBACK_VALUES:
                     raise ValueError("Invalid feedback in ledger")
                 self.db.execute("INSERT INTO feedback VALUES(?,?,?,?)", tuple(r[k] for k in ("target", "scope", "value", "updated_at")))
             for r in ledger.get("runs", []):

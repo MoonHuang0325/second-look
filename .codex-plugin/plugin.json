@@ -1,6 +1,6 @@
 {
   "name": "second-look",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Turn unfinished AI conversations into usable revised work, with sources you can check.",
   "license": "MIT",
   "author": {
@@ -19,7 +19,7 @@
     ],
     "defaultPrompt": [
       "Find things in my past conversations we could understand or solve better now.",
-      "\u770b\u770b\u6211\u4eec\u4ee5\u524d\u804a\u8fc7\u7684\u4e8b\u60c5\uff0c\u6709\u6ca1\u6709\u73b0\u5728\u80fd\u60f3\u5f97\u66f4\u597d\u3001\u505a\u5f97\u66f4\u597d\u7684\u3002"
+      "看看我们以前聊过的事情，有没有现在能想得更好、做得更好的。"
     ],
     "websiteURL": "https://github.com/MoonHuang0325/second-look",
     "privacyPolicyURL": "https://github.com/MoonHuang0325/second-look/blob/main/docs/privacy.md",

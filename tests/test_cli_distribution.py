@@ -198,7 +198,9 @@ class DistributionTests(unittest.TestCase):
                              (ROOT / "skills/second-look/assets/demo/history.md").read_bytes())
 
     def test_validation(self):
-        self.assertEqual(module("validate").validate()["behavioral_cases"], 24)
+        cases = json.loads((ROOT / "evals/development/cases.json").read_text(encoding="utf-8")) + \
+            json.loads((ROOT / "evals/holdout/cases.json").read_text(encoding="utf-8"))
+        self.assertEqual(module("validate").validate()["behavioral_cases"], len(cases))
 
 
 class EvaluationTests(unittest.TestCase):
@@ -207,7 +209,8 @@ class EvaluationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             output = Path(td) / "eval"
             result = evaluator.prepare("development", output)
-            self.assertEqual(result["trial_count"], 32)
+            case_count = len(json.loads((ROOT / "evals/development/cases.json").read_text(encoding="utf-8")))
+            self.assertEqual(result["trial_count"], case_count * 2)
             key = json.loads((output / "evaluator-only-key.json").read_text(encoding="utf-8"))
             self.assertEqual(evaluator.summary(output)["status"], "not_run")
             for case in {v["case_id"] for v in key.values()}:

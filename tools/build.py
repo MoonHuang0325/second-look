@@ -44,7 +44,7 @@ def build(output=None):
         plugin["second-look/docs/" + p.name] = p.read_bytes()
     for p in sorted((ROOT / "examples").rglob("*.md")):
         plugin["second-look/" + p.relative_to(ROOT).as_posix()] = p.read_bytes()
-    for directory, suffixes in (("assets", {".png", ".svg"}),
+    for directory, suffixes in (("assets", {".png", ".svg", ".gif"}),
                                 ("evals/observations", {".md", ".py", ".txt"})):
         for p in sorted((ROOT / directory).rglob("*")):
             if p.suffix in suffixes and "__pycache__" not in p.parts:

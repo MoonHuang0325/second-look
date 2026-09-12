@@ -4,6 +4,8 @@
 
 **Turn unfinished AI conversations into work you can use.**
 
+![Second Look re-reviewing past work after a model update](assets/demo.gif)
+
 A project stalled. Your constraints changed. The model missed the point. Second Look finds worthwhile questions in accessible history, rethinks them, and delivers a revised plan, answer, draft or proposed code change—with sources you can check.
 
 [简体中文](README.zh-CN.md) · [See a result](#from-stalled-to-actionable) · [Try it](#try-it) · [Install options](docs/installation.md)
@@ -44,6 +46,8 @@ Start with the bundled demo; it uses no personal history:
 | --- | --- |
 | Codex | `$second-look Try the bundled synthetic demo. Deliver the work without reading my personal history.` |
 | Claude Code | `/second-look Try the bundled synthetic demo. Deliver the work without reading my personal history.` |
+
+**Gemini CLI** reads `gemini-extension.json` + `GEMINI.md` instead of SKILL.md. Install the repository as a Gemini extension (`gemini extensions install <path-or-url>`), then ask Gemini to re-review prior work; it will load the same protocol from `skills/second-look/SKILL.md`.
 
 **No compatible skill host?** [Try one self-contained example](examples/try-in-chat.md) by pasting it into your current AI chat. It is a manual review sample; it does not install the skill or discover other conversations.
 

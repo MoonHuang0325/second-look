@@ -4,6 +4,8 @@
 
 **让搁置在 AI 对话里的重要问题，重新产生可用成果。**
 
+![Second Look 在模型更新后重检历史工作](assets/demo.gif)
+
 项目停了，条件变了，或者 AI 从一开始就理解偏了。Second Look 从可访问的历史里发现值得再想一次的问题，重新求解，交付新版方案、答案、作品或代码草稿，并给出可以检查的出处。
 
 [English](README.md) · [先看成果](#一次重新思考能带来什么) · [开始试用](#开始试用) · [其他安装方式](docs/installation.md)
@@ -44,6 +46,8 @@ npx skills add MoonHuang0325/second-look --skill second-look
 | --- | --- |
 | Codex | `$second-look 试用自带的合成演示，交付新版成果，不要读取我的个人历史。` |
 | Claude Code | `/second-look 试用自带的合成演示，交付新版成果，不要读取我的个人历史。` |
+
+**Gemini CLI** 读取 `gemini-extension.json` + `GEMINI.md` 而非 SKILL.md。把本仓库作为 Gemini 扩展安装（`gemini extensions install <路径或地址>`），然后请 Gemini 重检历史工作；它会从 `skills/second-look/SKILL.md` 加载同一套协议。
 
 **暂时没有兼容的 skill 环境？**[复制一份完整小案例](examples/try-in-chat.md)到你正在使用的 AI 聊天中，先体验重新求解。它是手动演示，不会安装 skill，也不会读取其他对话。
 

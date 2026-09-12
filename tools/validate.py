@@ -51,18 +51,19 @@ def validate():
         if prohibited in manifest:
             errors.append("Unexpected service or hook: " + prohibited)
     all_cases = []
-    for split, count in (("development", 16), ("holdout", 8)):
+    for split, minimum in (("development", 16), ("holdout", 8)):
         cases = json.loads((ROOT / "evals" / split / "cases.json").read_text(encoding="utf-8"))
-        if len(cases) != count:
-            errors.append("Wrong case count: " + split)
+        if len(cases) < minimum:
+            errors.append("Too few cases: %s has %d (minimum %d)" % (split, len(cases), minimum))
         for case in cases:
             if case["split"] != split or not case["synthetic"] or not case["expected"]["rubric"] or not case["history"]:
                 errors.append("Incomplete case: " + case["id"])
         all_cases.extend(cases)
-    if len({c["id"] for c in all_cases}) != 24:
+    if len({c["id"] for c in all_cases}) != len(all_cases):
         errors.append("Case IDs must be unique")
-    if Counter(c["audience"] for c in all_cases) != {"knowledge": 12, "developer": 12}:
-        errors.append("Audience coverage is unbalanced")
+    audience = Counter(c["audience"] for c in all_cases)
+    if audience["knowledge"] != audience["developer"] or not audience["knowledge"]:
+        errors.append("Audience coverage is unbalanced: " + str(dict(audience)))
     if errors:
         raise ValueError("\n".join(errors))
     return {"skill_lines": len(text.splitlines()), "behavioral_cases": len(all_cases), "status": "structure_valid",

@@ -1,0 +1,7 @@
+{
+  "name": "second-look",
+  "version": "0.3.0",
+  "description": "Re-review important past work after an AI model or configuration change, with evidence and duplicate suppression.",
+  "contextFileName": "GEMINI.md",
+  "excludeTools": []
+}

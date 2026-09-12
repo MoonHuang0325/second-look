@@ -17,3 +17,13 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - run: python tools/validate.py
       - run: python tools/build.py
+      - name: Mechanical eval gate (committed completed runs only)
+        run: |
+          # Runs the gate over any committed completed evaluation directory
+          # (evals/runs/<name>/). None is committed by default; a maintainer may
+          # commit one to gate a specific change on paired evidence.
+          shopt -s nullglob
+          for dir in evals/runs/*/; do
+            python tools/eval_gate.py --output "$dir" --require-pass
+          done
+        shell: bash

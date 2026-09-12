@@ -1,0 +1,51 @@
+name: Eval (LLM-assisted draft)
+# Maintainer-dispatched only. Executes prepared trial packets through an
+# authorized API and produces DRAFT pre-ratings for a human rater to confirm.
+# Draft ratings are never accepted as human judgments (see evals/README.md).
+on:
+  workflow_dispatch:
+    inputs:
+      split:
+        description: "Case split to prepare"
+        required: true
+        default: "development"
+        type: choice
+        options: ["development", "holdout"]
+      model:
+        description: "Observed model identifier to record (e.g. provider/model-snapshot)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  llm-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Prepare trial packets
+        run: |
+          mkdir -p "$RUNNER_TEMP/eval-run"
+          python tools/evaluate.py prepare --split "${{ inputs.split }}" --output "$RUNNER_TEMP/eval-run"
+      - name: Execute packets and draft pre-ratings
+        env:
+          EVAL_API_KEY: ${{ secrets.EVAL_API_KEY }}
+          EVAL_BASE_URL: ${{ vars.EVAL_BASE_URL }}
+          EVAL_MODEL: ${{ inputs.model }}
+        run: |
+          if [ -z "$EVAL_API_KEY" ] || [ -z "$EVAL_BASE_URL" ]; then
+            echo "EVAL_API_KEY secret and EVAL_BASE_URL variable are required; skipping execution."
+            exit 0
+          fi
+          python tools/eval_llm.py --eval-dir "$RUNNER_TEMP/eval-run" \
+            --base-url "$EVAL_BASE_URL" --model "$EVAL_MODEL"
+      - name: Upload run artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-draft-${{ inputs.split }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/eval-run
+          retention-days: 30

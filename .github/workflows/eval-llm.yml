@@ -44,7 +44,7 @@ jobs:
           python tools/eval_llm.py --eval-dir "$RUNNER_TEMP/eval-run" \
             --base-url "$EVAL_BASE_URL" --model "$EVAL_MODEL"
       - name: Upload run artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: eval-draft-${{ inputs.split }}-${{ github.run_id }}
           path: ${{ runner.temp }}/eval-run
